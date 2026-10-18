@@ -1,18 +1,33 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Open-Cosmic-Software/nyxmix",
-  "description": "Agent-first multitrack audio editor: edit sessions live with a human watching — effects, loudness, transcripts, exports.",
-  "repository": { "url": "https://github.com/Open-Cosmic-Software/nyxmix", "source": "github" },
+  "description": "Agent-first multitrack audio editor: edit sessions live with a human watching.",
+  "repository": {
+    "url": "https://github.com/Open-Cosmic-Software/nyxmix",
+    "source": "github"
+  },
   "version": "0.1.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "nyxmix",
       "version": "0.1.0",
-      "transport": { "type": "streamable-http", "url": "http://127.0.0.1:3950/mcp" },
+      "transport": {
+        "type": "streamable-http",
+        "url": "http://127.0.0.1:3950/mcp"
+      },
       "environmentVariables": [
-        { "name": "NYXMIX_TOKEN", "description": "Bearer token required for API/MCP access (recommended when reachable by others)", "isRequired": false, "isSecret": true },
-        { "name": "NYXMIX_DATA", "description": "Folder for sessions and audio (default ~/.nyxmix)", "isRequired": false }
+        {
+          "name": "NYXMIX_TOKEN",
+          "description": "Bearer token required for API/MCP access (recommended when reachable by others)",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "NYXMIX_DATA",
+          "description": "Folder for sessions and audio (default ~/.nyxmix)",
+          "isRequired": false
+        }
       ]
     }
   ]
