@@ -1,0 +1,18 @@
+# systemd unit — copy to /etc/systemd/system/nyxmix.service, set the token, then:
+#   systemctl daemon-reload && systemctl enable --now nyxmix
+[Unit]
+Description=NyxMix audio editor
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/nyxmix
+ExecStart=/usr/bin/node server/index.js
+Environment=PORT=3950
+Environment=HOST=127.0.0.1
+Environment=NYXMIX_TOKEN=change-me
+Environment=PUBLIC_URL=https://nyxmix.example.com
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

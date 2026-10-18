@@ -1,0 +1,7 @@
+# Reverse proxy with automatic HTTPS. WebSockets (/ws) and large uploads pass through.
+nyxmix.example.com {
+	request_body {
+		max_size 1GB
+	}
+	reverse_proxy 127.0.0.1:3950
+}

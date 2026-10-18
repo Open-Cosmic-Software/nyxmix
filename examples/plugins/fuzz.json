@@ -1,0 +1,11 @@
+{
+  "id": "fuzz",
+  "label": "Fuzz",
+  "author": "Klang examples",
+  "description": "Asymmetric-free soft fuzz with a one-pole tone control.",
+  "params": {
+    "drive": { "type": "number", "minimum": 0, "maximum": 40, "default": 18, "unit": "dB" },
+    "tone": { "type": "number", "minimum": 500, "maximum": 12000, "default": 4000, "unit": "Hz" },
+    "mix": { "type": "number", "minimum": 0, "maximum": 1, "default": 0.7 }
+  }
+}
