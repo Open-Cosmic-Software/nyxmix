@@ -1,4 +1,4 @@
-// An agent producing a podcast episode in Klang, using nothing but MCP.
+// An agent producing a podcast episode in NyxMix, using nothing but MCP.
 // Usage: node examples/agent-demo.mjs [http://127.0.0.1:3950]
 // Generates a rough German "recording" (TTS + hum + hiss + fillers + long pauses)
 // and a music bed, then cleans, mixes and masters it the way an agent would.

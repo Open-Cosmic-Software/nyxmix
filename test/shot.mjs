@@ -2,7 +2,7 @@
 import { chromium } from 'playwright';
 const [url, out, actions = '[]'] = process.argv.slice(2);
 const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--autoplay-policy=no-user-gesture-required', '--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream'] });
-const page = await browser.newPage({ viewport: { width: 1500, height: 900 }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: 1500, height: 900 }, deviceScaleFactor: Number(process.env.SHOT_SCALE) || 1, colorScheme: process.env.SHOT_SCHEME || 'light' });
 const logs = [];
 page.on('console', (m) => logs.push(`[${m.type()}] ${m.text()}`));
 page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));

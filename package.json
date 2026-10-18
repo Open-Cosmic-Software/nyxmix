@@ -21,7 +21,8 @@
     "SKILL.md",
     "server.json",
     "!**/__pycache__",
-    "!**/*.pyc"
+    "!**/*.pyc",
+    "!docs/img"
   ],
   "engines": {
     "node": ">=22"

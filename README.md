@@ -4,6 +4,33 @@ A multitrack audio editor for the web that people and AI agents use together.
 Everything a person can do in the UI, an agent can do through the open API — and
 the person watches it happen live, sees who did what, and can undo any of it.
 
+<p align="center">
+  <img src="docs/img/mixer.webp" alt="NyxMix: a podcast session with host and music tracks, an agent's EQ suggestion and the mixer open" width="100%">
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/nyxmix"><img src="https://img.shields.io/npm/v/nyxmix?color=5cc8f0&label=npm" alt="npm"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-MIT-5cc8f0" alt="MIT"></a>
+  <a href="https://registry.modelcontextprotocol.io/v0/servers?search=nyxmix"><img src="https://img.shields.io/badge/MCP-registry-a58bff" alt="MCP Registry"></a>
+</p>
+
+```bash
+npx nyxmix   # then open http://127.0.0.1:3950
+```
+
+## Screenshots
+
+| | |
+|---|---|
+| ![The session view: an agent cleaned a German podcast recording, its edits are labelled in the session log, and it left an EQ suggestion to accept or reject](docs/img/session.webp) | ![The same session in the light theme](docs/img/session-light.webp) |
+| **Session view.** Here an agent cleaned up a rough podcast recording (hum, noise, filler words, pauses), labelled every step in the session log, and left a suggestion for you to accept. | **Light theme.** Follows your system, or switch it in the top bar. |
+| ![Spectral editor showing the spectrogram of a voice clip with box, lasso, brush and spot-heal tools](docs/img/spectral.webp) | ![Word-level transcript of the recording with buttons to cut a selection or remove filler words](docs/img/transcript.webp) |
+| **Spectral editor.** Paint out noises, heal spots, draw pitch curves. | **Transcript.** Edit speech by text, remove filler words in one click. |
+| ![Start page with sessions, a .nyxmix import link and the agent connection instructions](docs/img/home.webp) | ![Mixer with channel strips, master spectrum and phase scope](docs/img/mixer.webp) |
+| **Start page.** Sessions, `.nyxmix` files, and how to connect an agent. | **Mixer.** Faders, meters, inserts, master spectrum and phase scope. |
+
+The demo session was made by an agent with [`examples/agent-demo.mjs`](examples/agent-demo.mjs), using nothing but MCP.
+
 ## Run it
 
 ```bash
