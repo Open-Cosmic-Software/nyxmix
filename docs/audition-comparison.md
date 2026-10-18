@@ -1,4 +1,7 @@
-# Klang vs. Adobe Audition — feature by feature
+# NyxMix vs. Adobe Audition — feature by feature
+
+NyxMix is a free, open-source (MIT) alternative to Adobe Audition. This page checks it
+against every feature in Audition's official reference.
 
 Source for Audition's feature set: the official *Adobe Audition CC Reference*
 (help.adobe.com/archive/en/audition/cc/2013/audition_reference.pdf), chapter
@@ -7,13 +10,13 @@ chapters, plus features Adobe added later (Essential Sound with auto-ducking, Re
 DeReverb/DeNoise, Match Loudness, Loudness Radar) and the release notes up to
 Audition 26.3 (June 2026): light mode and "Zoom to time" (25.2), Windows-on-ARM builds
 (26.0/26.3), and the **removal of CD authoring** in 26.3 (CD Layout panel, CD track markers).
-Evidence column: the automated test in `test/` that proves Klang's equivalent works
+Evidence column: the automated test in `test/` that proves NyxMix's equivalent works
 (`npm test` runs all of them).
 
-Legend: **=** equivalent · **+** Klang does more · **≈** partial · **–** missing
+Legend: **=** equivalent · **+** NyxMix does more · **≈** partial · **–** missing
 
 ## Amplitude and compression
-| Audition | Klang | | Evidence |
+| Audition | NyxMix | | Evidence |
 |---|---|---|---|
 | Amplify | `gain` effect, clip gain | = | effects render through the shared graph |
 | Channel Mixer | `channelmixer` effect | = | looping clips …; studio effects |
@@ -103,18 +106,18 @@ Legend: **=** equivalent · **+** Klang does more · **≈** partial · **–** 
 | CD layout (removed from Audition in 26.3) | `export_cd`: 44.1/16-bit TPDF-dithered WAV + CUE sheet, tracks from markers (burn with any burner; browsers cannot drive an optical drive) | + | CD image test; conformance: dither noise floor |
 | Light mode, Zoom to time (25.2) | light/dark/auto theme, zoom presets | = | (browser test) |
 
-## Only in Klang
+## Only in NyxMix
 Open REST/MCP API for agents (~80 tools), live shared sessions with authorship, proposals
 (preview → accept/reject), transcript-based editing and language-aware filler removal,
 delivery checks (podcast/EBU/ATSC/streaming/ACX), runs in a browser with nothing installed,
 crash-isolated parallel rendering.
 
 ## Platform limits (cannot be built in a browser)
-- **Native plugins run on the server, not in the browser.** Klang hosts VST3 and LV2 natively
+- **Native plugins run on the server, not in the browser.** NyxMix hosts VST3 and LV2 natively
   on the server (applied as processes with preview); only Faust and AudioWorklet plugins run
   live on tracks. Plugins built only for Windows or macOS (and AU, which is macOS-only) cannot
   load on a Linux server — just as Audition cannot load Linux builds.
-- **Software monitoring latency.** Browsers cannot reach ASIO buffer sizes. Klang
+- **Software monitoring latency.** Browsers cannot reach ASIO buffer sizes. NyxMix
   measures the round trip so takes land sample-exact; for zero-latency monitoring use the
   audio interface's direct monitoring (as most Audition users do too).
 

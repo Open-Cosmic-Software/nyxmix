@@ -1,7 +1,7 @@
 {
   "name": "nyxmix",
   "version": "0.1.0",
-  "description": "Agent-first multitrack audio editor for the web: people and AI agents edit the same session live, over UI, REST and MCP.",
+  "description": "Open-source alternative to Adobe Audition for people and AI agents: multitrack audio editor in the browser with MCP, live sessions, spectral repair and loudness mastering.",
   "mcpName": "io.github.Open-Cosmic-Software/nyxmix",
   "type": "module",
   "bin": {
@@ -41,7 +41,14 @@
     "ai-agents",
     "podcast",
     "web-audio",
-    "loudness"
+    "loudness",
+    "adobe-audition-alternative",
+    "audition-alternative",
+    "open-source-daw",
+    "audio-restoration",
+    "spectral-editor",
+    "mastering",
+    "ebu-r128"
   ],
   "author": "Nyx 🦞 & Fabian Budde (Open Cosmic Software)",
   "license": "MIT",

@@ -1,4 +1,4 @@
-// Klang Faust example: stereo phaser (pf.phaser2_stereo, 4 notches).
+// NyxMix Faust example: stereo phaser (pf.phaser2_stereo, 4 notches).
 // Install: POST /api/plugins/faust {"id":"faust-phaser","label":"Faust Phaser","code":<this file>}
 import("stdfaust.lib");
 rate = hslider("Rate [unit:Hz]", 0.5, 0.05, 8, 0.01);

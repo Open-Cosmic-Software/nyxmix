@@ -1,8 +1,16 @@
 # NyxMix
 
-A multitrack audio editor for the web that people and AI agents use together.
-Everything a person can do in the UI, an agent can do through the open API — and
-the person watches it happen live, sees who did what, and can undo any of it.
+**The open-source alternative to Adobe Audition, built for people and AI agents together.**
+
+Multitrack editing, mixing, restoration, spectral repair, loudness mastering and podcast
+production in your browser. Free, MIT-licensed, no subscription and no account.
+Everything you can do in the UI, an agent can do through MCP or REST, and you watch it
+happen live, see who did what, and can undo any of it.
+
+> Checked feature by feature against Audition's official reference: of 65 Audition
+> features, **50 have an equivalent, 14 go further, 1 is partial, none are missing**,
+> and every row is backed by an automated test ([full comparison](docs/audition-comparison.md)).
+> Audio output is verified against EBU R128 / ITU-R BS.1770 ([48/48 conformance tests](docs/conformance.md)).
 
 <p align="center">
   <img src="docs/img/mixer.webp" alt="NyxMix: a podcast session with host and music tracks, an agent's EQ suggestion and the mixer open" width="100%">
@@ -162,21 +170,37 @@ and phase correlation;
 user presets; live spectrum analyzer; touch editing; parallel rendering on all cores
 in crash-isolated processes.
 
-## Compared with Adobe Audition
+## NyxMix vs. Adobe Audition
+
+| | **NyxMix** | Adobe Audition |
+|---|---|---|
+| Price | **Free, open source (MIT)** | Subscription |
+| Runs on | **Any modern browser**; the server needs Node 22 + ffmpeg (tested on Linux) | Windows, macOS |
+| Multitrack, effects, automation, buses | ✅ | ✅ |
+| Spectral editor, noise reduction, de-click, de-hum | ✅ | ✅ |
+| Loudness (EBU R128, true peak), match loudness | ✅ | ✅ |
+| Transcript-based editing, filler-word removal | ✅ | – |
+| AI agents edit live (MCP + REST), every edit labelled | ✅ | – |
+| Review agent changes before they land | ✅ | – |
+| Several people/agents in one session at once | ✅ | – |
+| Whole session as one portable file | ✅ `.nyxmix` | – |
+| Native plugins live on tracks (VST/AU) | ≈ VST3/LV2 on the server | ✅ |
+| Lowest monitoring latency (ASIO/Core Audio) | ≈ browser, with measured compensation | ✅ |
+
 
 Output quality is measured against EBU Tech 3341/3342, ITU-R BS.1770-4 true peak and bit-exact null tests in [docs/conformance.md](docs/conformance.md) (48/48 pass).
 
 The full, test-backed checklist against every effect and feature in Audition's official reference is in [docs/audition-comparison.md](docs/audition-comparison.md). Summary:
 
-Where Klang goes further: an open API and MCP so agents can edit; live shared sessions
+Where NyxMix goes further: an open API and MCP so agents can edit; live shared sessions
 with authorship; proposals to review agent changes before they land; transcript-based
 editing and filler removal; chapter export; it runs in a browser with nothing installed.
 
 Where Audition is still ahead: it loads Windows/macOS VST and AU binaries and runs them live on tracks — no
-browser can load native plugins; Klang hosts **275 native plugins — 110 VST3 and 165 LV2** (LSP, ZAM, Dragonfly, DISTRHO, Calf, x42, MDA) on the server with A/B preview, plus AudioWorklet and **Faust** plugins
+browser can load native plugins; NyxMix hosts **275 native plugins — 110 VST3 and 165 LV2** (LSP, ZAM, Dragonfly, DISTRHO, Calf, x42, MDA) on the server with A/B preview, plus AudioWorklet and **Faust** plugins
 (`POST /api/plugins/faust` compiles Faust source with the full Faust libraries, e.g.
 `re.zita_rev1_stereo`, and the result runs identically in preview and export); recording latency through ASIO/Core Audio is
-lower than any browser allows (Klang compensates with a measured round trip, but you
+lower than any browser allows (NyxMix compensates with a measured round trip, but you
 hear yourself later when monitoring); CD layout. Files longer than 20 minutes stream during playback instead of being decoded
 into memory, which keeps long sessions light but places those clips with media-element
 timing (a few milliseconds) rather than sample-exact; exports are always sample-exact.
@@ -187,5 +211,8 @@ timing (a few milliseconds) rather than sample-exact; exports are always sample-
 (github.com/GregorR/rnnoise-models), BSD licence.
 
 ## Licence
+
+Adobe and Audition are trademarks of Adobe Inc. NyxMix is an independent project and is not affiliated with or endorsed by Adobe.
+
 
 MIT © Open Cosmic Software (Nyx 🦞 & Fabian Budde). See [LICENSE](LICENSE).

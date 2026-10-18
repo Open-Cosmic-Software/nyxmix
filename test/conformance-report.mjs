@@ -1,9 +1,9 @@
-// Standards-based conformance measurements for Klang's audio path.
+// Standards-based conformance measurements for NyxMix's audio path.
 //
 // Every check generates its test signal exactly as the cited standard describes it, pushes it
-// through Klang's public API (import → session → render/analyze/convert/export) or through the
+// through NyxMix's public API (import → session → render/analyze/convert/export) or through the
 // live meter worklet, and measures the result independently (own DSP + ffmpeg ebur128).
-// Tolerances come from the standards, never from what Klang happens to produce.
+// Tolerances come from the standards, never from what NyxMix happens to produce.
 //
 //   node test/conformance-report.mjs   → prints a markdown table and writes docs/conformance.md
 //   node --test test/conformance.test.mjs runs the same CHECKS as assertions.
@@ -285,7 +285,7 @@ const TP = {
 export const CHECKS = [];
 const add = (c) => CHECKS.push(c);
 
-// 1. EBU Tech 3341 — server analysis (ffmpeg ebur128 on Klang's rendered mix) and the live meter.
+// 1. EBU Tech 3341 — server analysis (ffmpeg ebur128 on NyxMix's rendered mix) and the live meter.
 for (const [n, c] of Object.entries(T3341)) {
   add({
     id: `3341-${n}-server`, group: 'Loudness (EBU Tech 3341)', metric: `Integrated loudness, case ${n} (${c.desc}) — server analyze`,
@@ -487,7 +487,7 @@ for (const nch of [1, 2]) {
     ...(nch === 1 ? { why: MONO_WHY } : {}),
   });
 }
-const DRIFT_WHY = 'Root cause (upstream, node-web-audio-api 2.2.0 AudioBufferSourceNode): the buffer is copied verbatim only when start() is on a 128-frame render-quantum boundary and offset is 0. Any other start time or offset (even an exact whole number of frames) makes the node track its playhead in floating point and linearly interpolate; the error grows with play time. Measured directly on the library with a 1 kHz + 15 kHz tone: start at 1 frame → −151 dBFS after 1 s, −128 after 10 s, −82 after 60 s, −69 after 150 s, −59 dBFS after 290 s; start at 128 frames → bit-exact for 300 s. Klang hits this for every trimmed or moved clip (graph.js buildProjectGraph src.start(T(startAt), offset + skip)) and in every parallel segment (server/render-core.js renderSegment re-points clips into an excerpt, so offset ≠ 0). Fix (render-core.js): give each clip an excerpt buffer that begins exactly at its first rendered frame, zero-padded in front so that start(0, 0) is used — or mix clip buffers in JS for offline renders.';
+const DRIFT_WHY = 'Root cause (upstream, node-web-audio-api 2.2.0 AudioBufferSourceNode): the buffer is copied verbatim only when start() is on a 128-frame render-quantum boundary and offset is 0. Any other start time or offset (even an exact whole number of frames) makes the node track its playhead in floating point and linearly interpolate; the error grows with play time. Measured directly on the library with a 1 kHz + 15 kHz tone: start at 1 frame → −151 dBFS after 1 s, −128 after 10 s, −82 after 60 s, −69 after 150 s, −59 dBFS after 290 s; start at 128 frames → bit-exact for 300 s. NyxMix hits this for every trimmed or moved clip (graph.js buildProjectGraph src.start(T(startAt), offset + skip)) and in every parallel segment (server/render-core.js renderSegment re-points clips into an excerpt, so offset ≠ 0). Fix (render-core.js): give each clip an excerpt buffer that begins exactly at its first rendered frame, zero-padded in front so that start(0, 0) is used — or mix clip buffers in JS for offline renders.';
 add({
   id: 'null-offset', group: 'Transparency (null tests)', metric: 'Clip placed 1 sample late (start = 1/48000 s), stereo',
   standard: 'Sample-exact placement (null test vs source delayed 1 sample)', tolerance: 'residual ≤ −140 dBFS, first sample silent',
@@ -622,7 +622,7 @@ for (const [format, bitDepth] of [['wav', 24], ['flac', 24]]) {
       const r = await encoderTest(env, format, bitDepth);
       return { measured: `RMS ${fmtDb(r.rmsDb)} dBFS, max ${r.maxLsb.toFixed(2)} LSB, mean ${r.meanLsb.toFixed(2).replace('-', '−')} LSB (${r.bits}-bit ${r.codec})`, pass: r.bits === 24 && r.rmsDb <= -144.5 && r.maxLsb <= 0.5 + 1e-6 };
     },
-    why: `Root cause: server/audio.js FORMATS.${format} lets ffmpeg convert float → s32 (rounded) and then the ${format === 'wav' ? 'pcm_s24le encoder' : 'FLAC encoder (bits_per_raw_sample 24)'} drops the low 8 bits with an arithmetic shift, i.e. truncates (floor): verified 838861.5 LSB → 838861 and −838861.125 → −838862. Error is in (−1, 0] LSB instead of ±½ LSB, with a −½ LSB DC bias, ~6 dB above an ideal 24-bit quantiser (still ~−143 dBFS, far below audibility). Fix: round before the encoder, e.g. scale to 24-bit and round in Klang's own writer, or TPDF-dither to 24 bits (aresample=osf=s32:dither_method=triangular with output_sample_bits=24).`,
+    why: `Root cause: server/audio.js FORMATS.${format} lets ffmpeg convert float → s32 (rounded) and then the ${format === 'wav' ? 'pcm_s24le encoder' : 'FLAC encoder (bits_per_raw_sample 24)'} drops the low 8 bits with an arithmetic shift, i.e. truncates (floor): verified 838861.5 LSB → 838861 and −838861.125 → −838862. Error is in (−1, 0] LSB instead of ±½ LSB, with a −½ LSB DC bias, ~6 dB above an ideal 24-bit quantiser (still ~−143 dBFS, far below audibility). Fix: round before the encoder, e.g. scale to 24-bit and round in NyxMix's own writer, or TPDF-dither to 24 bits (aresample=osf=s32:dither_method=triangular with output_sample_bits=24).`,
   });
 }
 // CD export (44.1 kHz/16-bit, TPDF dither): −90 dBFS 997 Hz tone (AES17) in a 44.1 kHz session.
@@ -699,10 +699,10 @@ export async function runChecks(env, checks = CHECKS, onRow) {
 export function markdown(rows) {
   const esc = (s) => String(s).replace(/\|/g, '\\|');
   const lines = [
-    '# Klang conformance report',
+    '# NyxMix conformance report',
     '',
     `Generated by \`node test/conformance-report.mjs\` on ${new Date().toISOString().slice(0, 10)} (ffmpeg ${execFileSync('ffmpeg', ['-version']).toString().split('\n')[0].split(' ')[2]}, Node ${process.version}).`,
-    'Test signals are generated as the cited standards define them and pushed through Klang\'s public API (import → session → render / analyze / sample-rate / CD export) or the `klang-meter` worklet run offline; results are measured independently (least-squares sine fits, Welch spectra, ffmpeg `ebur128`).',
+    'Test signals are generated as the cited standards define them and pushed through NyxMix\'s public API (import → session → render / analyze / sample-rate / CD export) or the `klang-meter` worklet run offline; results are measured independently (least-squares sine fits, Welch spectra, ffmpeg `ebur128`).',
     'The same checks run as assertions in `test/conformance.test.mjs`.',
     '',
   ];

@@ -1,4 +1,4 @@
-// Klang Faust example: stereo Zita reverb (re.zita_rev1_stereo) with a dry/wet mix.
+// NyxMix Faust example: stereo Zita reverb (re.zita_rev1_stereo) with a dry/wet mix.
 // Install: POST /api/plugins/faust {"id":"zita-reverb","label":"Zita Reverb","code":<this file>}
 import("stdfaust.lib");
 predelay = hslider("Predelay [unit:ms]", 40, 0, 200, 1);

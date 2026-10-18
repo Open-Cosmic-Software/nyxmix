@@ -1,4 +1,4 @@
-// Example Klang plugin: a fuzz with tone control. Install with
+// Example NyxMix plugin: a fuzz with tone control. Install with
 //   curl -X POST $KLANG/api/plugins -H 'Content-Type: application/json' \
 //     -d "{\"manifest\": $(cat examples/plugins/fuzz.json), \"code\": $(node -p 'JSON.stringify(require("fs").readFileSync("examples/plugins/fuzz.js","utf8"))')}"
 // The processor name must be "plugin-<manifest id>", with one k-rate AudioParam per manifest param.

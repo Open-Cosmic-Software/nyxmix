@@ -1,4 +1,4 @@
-// Klang Faust example: stereo-linked compressor (co.compressor_stereo) with makeup gain.
+// NyxMix Faust example: stereo-linked compressor (co.compressor_stereo) with makeup gain.
 // Install: POST /api/plugins/faust {"id":"faust-comp","label":"Faust Compressor","code":<this file>}
 import("stdfaust.lib");
 ratio = hslider("Ratio", 4, 1, 20, 0.1);
