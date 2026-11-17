@@ -50,6 +50,22 @@ npx nyxmix --port 4000 --data ./sessions
 Requirements: **Node 22+** and **ffmpeg 6+** on your PATH (with rubberband, libmp3lame, libopus,
 which the usual ffmpeg builds have).
 
+### Homebrew
+
+If you use [Homebrew](https://brew.sh/), install NyxMix along with Node and FFmpeg
+with Rubber Band support:
+
+```bash
+brew tap open-cosmic-software/nyxmix https://github.com/Open-Cosmic-Software/nyxmix.git
+brew install open-cosmic-software/nyxmix/nyxmix
+nyxmix
+```
+
+Open [NyxMix in your browser](http://127.0.0.1:3950). Sessions are saved in `~/.nyxmix`.
+To update, run `brew upgrade open-cosmic-software/nyxmix/nyxmix`.
+
+### From source
+
 From a checkout:
 
 ```bash
